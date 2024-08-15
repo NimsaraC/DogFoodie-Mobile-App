@@ -3,6 +3,7 @@ package com.android.dogefoodie.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.android.dogefoodie.Product;
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.user.UserProductView;
 import com.squareup.picasso.Picasso;
+import java.io.File;
 import java.util.List;
 
 public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adapter.ViewHolder> {
@@ -40,11 +42,38 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
         holder.productName.setText(product.getName());
         holder.productPrice.setText("$" + product.getPrice());
 
-        Picasso.get()
-                .load(product.getImageUrl())
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(holder.productImage);
+        String imageUrl = product.getImageUrl();
+        if (imageUrl != null && imageUrl.startsWith("/")) {
+            Picasso.get()
+                    .load(new File(imageUrl))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.productImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e("Picasso", "Error loading image", e);
+                        }
+                    });
+        } else {
+            Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.productImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e("Picasso", "Error loading image", e);
+                        }
+                    });
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, UserProductView.class);
@@ -54,7 +83,6 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
             intent.putExtra("product_description", product.getDescription());
             intent.putExtra("product_category", product.getCategory());
 
-            // Use the FLAG_ACTIVITY_NEW_TASK flag if the context is not an Activity context
             if (!(context instanceof Activity)) {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
@@ -79,4 +107,3 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
         }
     }
 }
-

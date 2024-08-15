@@ -18,6 +18,7 @@ import com.android.dogefoodie.CartItem;
 import com.android.dogefoodie.database.CartDB;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class User_Cart_Adapter extends RecyclerView.Adapter<User_Cart_Adapter.ViewHolder> {
@@ -25,11 +26,13 @@ public class User_Cart_Adapter extends RecyclerView.Adapter<User_Cart_Adapter.Vi
     private List<CartItem> cartItems;
     private CartDB cartDB;
     private Context context;
+    private TotalPriceUpdater totalPriceUpdater;
 
-    public User_Cart_Adapter(List<CartItem> cartItems, CartDB cartDB, Context context) {
+    public User_Cart_Adapter(List<CartItem> cartItems, CartDB cartDB, Context context, TotalPriceUpdater totalPriceUpdater) {
         this.cartItems = cartItems;
         this.cartDB = cartDB;
         this.context = context;
+        this.totalPriceUpdater = totalPriceUpdater;
     }
 
     @NonNull
@@ -47,7 +50,21 @@ public class User_Cart_Adapter extends RecyclerView.Adapter<User_Cart_Adapter.Vi
         holder.itemName.setText(item.getProductName());
         holder.itemPrice.setText(String.format("$%.2f", item.getPrice()));
         holder.itemQuantity.setText(String.valueOf(item.getQuantity()));
-        Picasso.get().load(item.getImageUrl()).into(holder.itemImage);
+
+        String imageUrl = item.getImageUrl();
+        if (imageUrl != null && imageUrl.startsWith("/")) {
+            Picasso.get()
+                    .load(new File(imageUrl))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.itemImage);
+        } else {
+            Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.itemImage);
+        }
 
         holder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,16 +86,22 @@ public class User_Cart_Adapter extends RecyclerView.Adapter<User_Cart_Adapter.Vi
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Remove from database
                         cartDB.deleteCartItem(item.getUserId(), item.getProductName());
 
-                        // Remove from list and notify adapter
                         cartItems.remove(position);
                         notifyItemRemoved(position);
+
+                        // Notify the activity to update the total price
+                        if (totalPriceUpdater != null) {
+                            totalPriceUpdater.onPriceUpdate(cartItems);
+                        }
                     }
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+    public interface TotalPriceUpdater {
+        void onPriceUpdate(List<CartItem> updatedCartItems);
     }
 
     public void updateCartItems(List<CartItem> newCartItems) {
