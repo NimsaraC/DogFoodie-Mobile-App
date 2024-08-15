@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.dogefoodie.R;
+import com.android.dogefoodie.SharedPreference;
 import com.android.dogefoodie.User;
 import com.android.dogefoodie.database.UserDB;
 
@@ -49,6 +50,7 @@ public class UserLogin extends AppCompatActivity {
                     if (isAuthenticated) {
                         Toast.makeText(UserLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
 
+                        GetInfo(email);
                         Intent intent = new Intent(getApplicationContext(), UserMain.class);
                         startActivity(intent);
                     } else {
@@ -67,5 +69,15 @@ public class UserLogin extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void GetInfo(String email){
+        SharedPreference preference = new SharedPreference();
+
+        User user = userDB.getUserByEmail(email);
+
+        preference.SaveString(getApplicationContext(),email,SharedPreference.KEY_EMAIL);
+        preference.SaveString(getApplicationContext(), String.valueOf(user.getId()),SharedPreference.KEY_ID);
+        preference.SaveString(getApplicationContext(),user.getName().toString(),SharedPreference.KEY_EMAIL);
     }
 }

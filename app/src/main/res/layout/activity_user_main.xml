@@ -92,8 +92,10 @@
                     android:text="Categories" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"/>
 
                 <TextView
                     android:id="@+id/textView6"
@@ -102,8 +104,10 @@
                     android:text="Products" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"/>
             </LinearLayout>
         </ScrollView>
 

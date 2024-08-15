@@ -90,6 +90,26 @@ public class UserDB extends SQLiteOpenHelper {
         db.close();
         return userList;
     }
+    public User getUserByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, EMAIL + "=?", new String[]{email}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            User user = new User(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(EMAIL)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(PHONE))
+            );
+            cursor.close();
+            db.close();
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     public User getUserById(int userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, ID + "=?", new String[]{String.valueOf(userId)}, null, null, null);
