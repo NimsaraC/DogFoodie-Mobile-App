@@ -1,6 +1,8 @@
 package com.android.dogefoodie.user;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +19,7 @@ public class UserProductView extends AppCompatActivity {
 
     private ImageView productImageView;
     private TextView productNameTextView, productPriceTextView, productDescriptionTextView, productCategoryTextView, QntTextView, TotalTextView;
-    private Button btnIn, btnDe, btnAddCart;
+    private Button btnIn, btnDe, btnAddCart, btnCartTest;
     int Quantity ;
     double Total;
 
@@ -36,6 +38,8 @@ public class UserProductView extends AppCompatActivity {
         btnIn = findViewById(R.id.buttonIn);
         btnDe = findViewById(R.id.buttonDe);
         btnAddCart = findViewById(R.id.button2);
+
+        btnCartTest = findViewById(R.id.btnCartTest);
 
         SharedPreference sharedPreference = new SharedPreference();
 
@@ -90,6 +94,14 @@ public class UserProductView extends AppCompatActivity {
             }
         });
 
+        btnCartTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserCart.class);
+                startActivity(intent);
+            }
+        });
+
         btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +110,8 @@ public class UserProductView extends AppCompatActivity {
                 int userId = Integer.parseInt(id);
 
                 String productName = productNameTextView.getText().toString();
-                double productPrice = Double.parseDouble(productPriceTextView.getText().toString().replace("$", ""));
+                double productPrice = getIntent().getDoubleExtra("product_price", 0.0);
                 int quantity = Integer.parseInt(QntTextView.getText().toString());
-                double totalPrice = Double.parseDouble(TotalTextView.getText().toString());
                 String productImageUrl = getIntent().getStringExtra("product_image_url");
 
                 CartDB cartDB = new CartDB(UserProductView.this);

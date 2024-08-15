@@ -142,6 +142,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="2000" />
+
+            <Button
+                android:id="@+id/btnCartTest"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Cart"></Button>
+
         </LinearLayout>
 
         <LinearLayout

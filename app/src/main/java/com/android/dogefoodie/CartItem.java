@@ -19,7 +19,6 @@ public class CartItem {
         this.imageUrl = imageUrl;
     }
 
-    // Getters and Setters
     public int getUserId() {
         return userId;
     }

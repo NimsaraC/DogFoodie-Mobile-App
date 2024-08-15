@@ -43,6 +43,7 @@
             android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </ScrollView>
@@ -60,7 +61,7 @@
             android:id="@+id/textView21"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Summary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,14 +73,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="Total" />
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="1000" />
 
         </LinearLayout>
 
