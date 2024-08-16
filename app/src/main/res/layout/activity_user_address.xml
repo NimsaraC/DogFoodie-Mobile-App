@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user.UserAddress">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/etNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="No" />
+        <EditText
+            android:id="@+id/etStreet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Street"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/etCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="City"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etPostal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Postal Code"/>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

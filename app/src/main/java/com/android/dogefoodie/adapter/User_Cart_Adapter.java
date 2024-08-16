@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -91,7 +92,6 @@ public class User_Cart_Adapter extends RecyclerView.Adapter<User_Cart_Adapter.Vi
                         cartItems.remove(position);
                         notifyItemRemoved(position);
 
-                        // Notify the activity to update the total price
                         if (totalPriceUpdater != null) {
                             totalPriceUpdater.onPriceUpdate(cartItems);
                         }
@@ -114,7 +114,7 @@ public class User_Cart_Adapter extends RecyclerView.Adapter<User_Cart_Adapter.Vi
         TextView itemName;
         TextView itemPrice;
         TextView itemQuantity;
-        Button btnRemove;
+        LinearLayout btnRemove;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

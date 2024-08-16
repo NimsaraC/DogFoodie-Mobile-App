@@ -25,13 +25,14 @@ public class UserCart extends AppCompatActivity implements User_Cart_Adapter.Tot
     private CartDB cartDB;
     private int userId;
     private TextView textViewTotalPrice;
-    Button checkoutButton;
+    private Button Checkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_cart);
 
+        Checkout = findViewById(R.id.button5);
         cartDB = new CartDB(this);
         SharedPreference sharedPreference = new SharedPreference();
 
@@ -44,21 +45,30 @@ public class UserCart extends AppCompatActivity implements User_Cart_Adapter.Tot
 
         List<CartItem> cartItems = cartDB.getCartItemsByUserId(userId);
 
-        adapter = new User_Cart_Adapter(cartItems, cartDB, this, this); // 'this' as TotalPriceUpdater
+        adapter = new User_Cart_Adapter(cartItems, cartDB, this, this);
         recyclerView.setAdapter(adapter);
+
+        SharedPreference preference = new SharedPreference();
 
         updateTotalPrice(cartItems);
 
-        /*
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
+        Checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double totalPrice = Double.parseDouble(textViewTotalPrice.getText().toString());
-                Intent intent = new Intent(getApplicationContext(), UserOrderConfirm.class);
-                intent.putExtra("TOTAL_PRICE", totalPrice);
-                startActivity(intent);
+                String totalPriceText = textViewTotalPrice.getText().toString();
+                String priceString = totalPriceText.replaceAll("[^\\d.]", "");
+
+                try {
+                    double totalPrice = Double.parseDouble(priceString);
+                    preference.SaveString(getApplicationContext(), String.valueOf(totalPrice), SharedPreference.TOTAL);
+                    Intent intent = new Intent(getApplicationContext(), UserOrderConfirm.class);
+                    startActivity(intent);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
             }
-        });*/
+        });
+
 
 
     }

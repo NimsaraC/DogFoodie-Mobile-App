@@ -43,40 +43,23 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
         holder.productPrice.setText("$" + product.getPrice());
 
         String imageUrl = product.getImageUrl();
-        if (imageUrl != null && imageUrl.startsWith("/")) {
+        if (imageUrl != null && new File(imageUrl).exists()) {
             Picasso.get()
                     .load(new File(imageUrl))
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.productImage, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            Log.e("Picasso", "Error loading image", e);
-                        }
-                    });
+                    .into(holder.productImage);
         } else {
             Picasso.get()
                     .load(imageUrl)
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.productImage, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            Log.e("Picasso", "Error loading image", e);
-                        }
-                    });
+                    .into(holder.productImage);
         }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, UserProductView.class);
+            intent.putExtra("product_id", String.valueOf(product.getId()));
             intent.putExtra("product_name", product.getName());
             intent.putExtra("product_price", product.getPrice());
             intent.putExtra("product_image_url", product.getImageUrl());
@@ -88,11 +71,17 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
             }
             context.startActivity(intent);
         });
+
     }
 
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    public void updateProductList(List<Product> newProductList) {
+        this.productList = newProductList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

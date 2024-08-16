@@ -10,7 +10,10 @@
         android:layout_height="150dp"
         app:cardCornerRadius="7dp"
         android:elevation="15dp"
-        android:layout_margin="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:id="@+id/imgViewProduct"
@@ -22,7 +25,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_height="100dp"
         app:cardCornerRadius="7dp"
         android:elevation="15dp"
         android:layout_marginStart="16dp"
@@ -33,19 +36,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:background="@color/white"
             android:padding="10dp">
 
             <TextView
                 android:id="@+id/ProductViewName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="17dp"
                 android:text="Product Name"/>
             <TextView
                 android:id="@+id/ProductViewPrice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:text="Price"/>
 
         </LinearLayout>

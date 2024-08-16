@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity{
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Admin_Add_Item.class);
+                Intent intent = new Intent(getApplicationContext(), UserRegistration.class);
                 startActivity(intent);
             }
         });

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/edittext_background">
+
+            <TextView
+                android:id="@+id/reviewUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe - August 16, 2024"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/reviewTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe - August 16, 2024"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
+
+            <RatingBar
+                android:id="@+id/reviewRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                android:rating="4.5"
+                android:layout_marginBottom="8dp"
+                android:theme="@style/Widget.AppCompat.RatingBar.Small"/>
+
+            <TextView
+                android:id="@+id/reviewText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This product is amazing! I love the quality and the packaging was excellent."
+                android:textColor="#555555"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

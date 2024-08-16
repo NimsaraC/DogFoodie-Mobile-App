@@ -10,6 +10,16 @@ public class SharedPreference {
     public static final String KEY_EMAIL = "Email";
     public static final String KEY_STATUS = "Status";
     public static final String PHONE = "phone";
+    public static final String NAME = "name";
+    public static final String NO = "no";
+    public static final String STREET = "street";
+    public static final String CITY = "city";
+    public static final String ZIP = "zip";
+    public static final String TOTAL = "total";
+    public static final String CARD_HOLDER = "holder";
+    public static final String CVV = "cvv";
+    public static final String CARD_NUMBER = "number";
+    public static final String EXPIRE = "10/5";
 
     public SharedPreference() {
         super();

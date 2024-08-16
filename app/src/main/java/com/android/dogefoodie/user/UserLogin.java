@@ -19,7 +19,7 @@ import java.util.List;
 public class UserLogin extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button loginButton;
+    private Button loginButton, signupButton;
     private UserDB userDB;
 
     @Override
@@ -30,6 +30,7 @@ public class UserLogin extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.btn3);
+        signupButton = findViewById(R.id.btnsignup);
 
         userDB = new UserDB(this);
 
@@ -59,6 +60,14 @@ public class UserLogin extends AppCompatActivity {
                 }
             }
         });
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserRegistration.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean authenticateUser(String email, String password) {
@@ -78,6 +87,6 @@ public class UserLogin extends AppCompatActivity {
 
         preference.SaveString(getApplicationContext(),email,SharedPreference.KEY_EMAIL);
         preference.SaveString(getApplicationContext(), String.valueOf(user.getId()),SharedPreference.KEY_ID);
-        preference.SaveString(getApplicationContext(),user.getName().toString(),SharedPreference.KEY_EMAIL);
+        preference.SaveString(getApplicationContext(),user.getName(),SharedPreference.KEY_NAME);
     }
 }

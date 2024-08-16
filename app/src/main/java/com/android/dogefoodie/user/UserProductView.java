@@ -1,28 +1,46 @@
 package com.android.dogefoodie.user;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.dogefoodie.R;
+import com.android.dogefoodie.Review;
 import com.android.dogefoodie.SharedPreference;
+import com.android.dogefoodie.adapter.User_Review_Adapter;
 import com.android.dogefoodie.database.CartDB;
+import com.android.dogefoodie.database.ReviewDB;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.List;
 
 public class UserProductView extends AppCompatActivity {
 
     private ImageView productImageView;
     private TextView productNameTextView, productPriceTextView, productDescriptionTextView, productCategoryTextView, QntTextView, TotalTextView;
-    private Button btnIn, btnDe, btnAddCart, btnCartTest;
+    private Button btnIn, btnDe, btnAddCart, btnCartTest, btnSubmitReview;
+    private EditText reviewEditText;
+    private RatingBar ratingBar;
     private int quantity = 1;
     private double total;
+    private LinearLayout cart;
+    private RecyclerView recyclerView3;
+    private User_Review_Adapter reviewAdapter;
+    private ReviewDB reviewDB;
+    private List<Review> reviewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +48,8 @@ public class UserProductView extends AppCompatActivity {
         setContentView(R.layout.activity_user_product_view);
 
         initializeViews();
-
         setupProductDetails();
-
+        setupReviews();
         handleButtonActions();
     }
 
@@ -47,7 +64,13 @@ public class UserProductView extends AppCompatActivity {
         btnIn = findViewById(R.id.buttonIn);
         btnDe = findViewById(R.id.buttonDe);
         btnAddCart = findViewById(R.id.button2);
-        btnCartTest = findViewById(R.id.btnCartTest);
+        cart = findViewById(R.id.cart);
+        recyclerView3 = findViewById(R.id.recyclerView3);
+        btnSubmitReview = findViewById(R.id.submitReviewButton);
+        reviewEditText = findViewById(R.id.reviewEditText);
+        ratingBar = findViewById(R.id.ratingBar);
+
+        recyclerView3.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setupProductDetails() {
@@ -64,7 +87,6 @@ public class UserProductView extends AppCompatActivity {
             productDescriptionTextView.setText(productDescription);
             productCategoryTextView.setText(productCategory);
 
-            // Load the product image using Picasso
             loadImageWithPicasso(productImageUrl);
 
             QntTextView.setText(String.valueOf(quantity));
@@ -107,6 +129,18 @@ public class UserProductView extends AppCompatActivity {
         }
     }
 
+    private void setupReviews() {
+        reviewDB = new ReviewDB(this);
+        Intent intent = getIntent();
+        String productIdStr = intent.getStringExtra("product_id");
+
+        if (productIdStr != null) {
+            int productId = Integer.parseInt(productIdStr);
+            reviewList = reviewDB.getReviewsByProductId(productId);
+            reviewAdapter = new User_Review_Adapter(this, reviewList);
+            recyclerView3.setAdapter(reviewAdapter);
+        }
+    }
 
     private void handleButtonActions() {
         btnIn.setOnClickListener(v -> {
@@ -123,10 +157,12 @@ public class UserProductView extends AppCompatActivity {
 
         btnAddCart.setOnClickListener(v -> addToCart());
 
-        btnCartTest.setOnClickListener(v -> {
+        cart.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), UserCart.class);
             startActivity(intent);
         });
+
+        btnSubmitReview.setOnClickListener(v -> submitReview());
     }
 
     private void updateTotal() {
@@ -150,5 +186,29 @@ public class UserProductView extends AppCompatActivity {
         cartDB.addCartItem(userId, email, productName, quantity, productPrice, productImageUrl);
 
         Toast.makeText(UserProductView.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+    }
+
+    private void submitReview() {
+        SharedPreference preference = new SharedPreference();
+        int productId = Integer.parseInt(getIntent().getStringExtra("product_id"));
+        String username = preference.getString(getApplicationContext(), SharedPreference.KEY_NAME);
+        float rating = ratingBar.getRating();
+        String reviewText = reviewEditText.getText().toString();
+        String time = java.text.DateFormat.getDateTimeInstance().format(new java.util.Date());
+
+        Review review = new Review(0, productId, username, rating, reviewText, time);
+
+        reviewDB.addReview(review);
+        Toast.makeText(UserProductView.this, "Review submitted", Toast.LENGTH_SHORT).show();
+        reviewEditText.setText("");
+        ratingBar.setRating(0);
+        updateReviews();
+    }
+
+    private void updateReviews() {
+        int productId = Integer.parseInt(getIntent().getStringExtra("product_id"));
+        reviewList.clear();
+        reviewList.addAll(reviewDB.getReviewsByProductId(productId));
+        reviewAdapter.notifyDataSetChanged();
     }
 }

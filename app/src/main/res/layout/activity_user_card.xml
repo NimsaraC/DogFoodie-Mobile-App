@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user.UserCard">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            android:inputType="number"
+            android:maxLength="16"
+            android:ems="10"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etCardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cardholder Name"
+            android:inputType="textPersonName"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etExpiryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Expiry Date (MM/YY)"
+            android:inputType="text"
+            android:maxLength="5"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etCvv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CVV"
+            android:inputType="numberPassword"
+            android:maxLength="3"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
