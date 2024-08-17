@@ -56,7 +56,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"
+                    android:background="@drawable/edittext_background"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -140,6 +140,7 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:backgroundTint="#FFBA30"
                         app:cornerRadius="10dp"
                         android:text="Add Address"/>
 
@@ -158,7 +159,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"
+                    android:background="@drawable/edittext_background"
                     android:orientation="vertical">
 
                     <ScrollView
@@ -185,7 +186,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"
+                    android:background="@drawable/edittext_background"
                     android:orientation="vertical"
                     android:paddingStart="20dp">
 
@@ -205,6 +206,7 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:backgroundTint="#FFBA30"
                         app:cornerRadius="10dp"
                         android:text="Add Card" />
                 </LinearLayout>
@@ -256,6 +258,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     app:cornerRadius="10dp"
+                    android:backgroundTint="#FFBA30"
                     android:text="Pay now" />
             </LinearLayout>
         </ScrollView>

@@ -16,11 +16,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.dogefoodie.CartItem;
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.Review;
 import com.android.dogefoodie.SharedPreference;
 import com.android.dogefoodie.adapter.User_Review_Adapter;
 import com.android.dogefoodie.database.CartDB;
+import com.android.dogefoodie.database.ProductDB;
 import com.android.dogefoodie.database.ReviewDB;
 import com.squareup.picasso.Picasso;
 
@@ -30,8 +32,8 @@ import java.util.List;
 public class UserProductView extends AppCompatActivity {
 
     private ImageView productImageView;
-    private TextView productNameTextView, productPriceTextView, productDescriptionTextView, productCategoryTextView, QntTextView, TotalTextView;
-    private Button btnIn, btnDe, btnAddCart, btnCartTest, btnSubmitReview;
+    private TextView productNameTextView,txtQty, productPriceTextView, productDescriptionTextView, productCategoryTextView, QntTextView, TotalTextView;
+    private Button btnIn, btnDe, btnAddCart, btnSubmitReview;
     private EditText reviewEditText;
     private RatingBar ratingBar;
     private int quantity = 1;
@@ -40,6 +42,7 @@ public class UserProductView extends AppCompatActivity {
     private RecyclerView recyclerView3;
     private User_Review_Adapter reviewAdapter;
     private ReviewDB reviewDB;
+    private ProductDB productDB;
     private List<Review> reviewList;
 
     @Override
@@ -47,6 +50,7 @@ public class UserProductView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_product_view);
 
+        productDB = new ProductDB(this);
         initializeViews();
         setupProductDetails();
         setupReviews();
@@ -69,6 +73,7 @@ public class UserProductView extends AppCompatActivity {
         btnSubmitReview = findViewById(R.id.submitReviewButton);
         reviewEditText = findViewById(R.id.reviewEditText);
         ratingBar = findViewById(R.id.ratingBar);
+        txtQty = findViewById(R.id.txtQty);
 
         recyclerView3.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -96,36 +101,48 @@ public class UserProductView extends AppCompatActivity {
     }
 
     private void loadImageWithPicasso(String productImageUrl) {
-        if (productImageUrl != null && productImageUrl.startsWith("/")) {
-            Picasso.get()
-                    .load(new File(productImageUrl))
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(productImageView, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
+        if (productImageUrl != null) {
+            if (productImageUrl.startsWith("drawable/")) {
+                String drawableName = productImageUrl.replace("drawable/", "").replace(".jpg", "");
+                int drawableResId = getResources().getIdentifier(drawableName, "drawable", getPackageName());
+                if (drawableResId != 0) {
+                    productImageView.setImageResource(drawableResId);
+                } else {
+                    productImageView.setImageResource(R.drawable.ic_launcher_foreground);
+                }
+            } else if (productImageUrl.startsWith("/")) {
+                Picasso.get()
+                        .load(new File(productImageUrl))
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                        .into(productImageView, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
 
-                        @Override
-                        public void onError(Exception e) {
-                            Log.e("Picasso", "Error loading image", e);
-                        }
-                    });
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("Picasso", "Error loading image", e);
+                            }
+                        });
+            } else {
+                Picasso.get()
+                        .load(productImageUrl)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                        .into(productImageView, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("Picasso", "Error loading image", e);
+                            }
+                        });
+            }
         } else {
-            Picasso.get()
-                    .load(productImageUrl)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(productImageView, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            Log.e("Picasso", "Error loading image", e);
-                        }
-                    });
+            productImageView.setImageResource(R.drawable.ic_launcher_background);
         }
     }
 
@@ -142,18 +159,34 @@ public class UserProductView extends AppCompatActivity {
         }
     }
 
+    private int getMaxQuantity(String item) {
+        return productDB.getProductQuantity(item);
+    }
     private void handleButtonActions() {
-        btnIn.setOnClickListener(v -> {
-            quantity++;
-            updateTotal();
-        });
+        String productName = getIntent().getStringExtra("product_name");
+        txtQty.setText(String.valueOf(getMaxQuantity(productName)));
 
-        btnDe.setOnClickListener(v -> {
-            if (quantity > 1) {
-                quantity--;
-                updateTotal();
-            }
-        });
+        if (productName != null) {
+            btnIn.setOnClickListener(v -> {
+                if (quantity < getMaxQuantity(productName)) {
+                    quantity++;
+                    updateTotal();
+                } else {
+                    Toast.makeText(UserProductView.this, "Maximum quantity reached", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            btnDe.setOnClickListener(v -> {
+                if (quantity > 1) {
+                    quantity--;
+                    updateTotal();
+                } else {
+                    Toast.makeText(UserProductView.this, "Minimum quantity is 1", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Log.e("UserProductView", "Product name is null");
+        }
 
         btnAddCart.setOnClickListener(v -> addToCart());
 
@@ -169,8 +202,9 @@ public class UserProductView extends AppCompatActivity {
         double productPrice = getIntent().getDoubleExtra("product_price", 0.0);
         QntTextView.setText(String.valueOf(quantity));
         total = productPrice * quantity;
-        TotalTextView.setText(String.format("%.2f", total));
+        TotalTextView.setText(String.format("$%.2f", total));
     }
+
 
     private void addToCart() {
         SharedPreference sharedPreference = new SharedPreference();

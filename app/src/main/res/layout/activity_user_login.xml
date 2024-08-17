@@ -45,7 +45,7 @@
                     android:background="@drawable/edittext_background"
                     android:textColor="#000000"
                     android:textSize="16sp"
-                    android:textColorHint="#713BD1"
+                    android:textColorHint="#98600D"
                     android:padding="12dp"
                     android:layout_margin="16dp"/>
 
@@ -57,7 +57,7 @@
                     android:inputType="textEmailAddress"
                     android:background="@drawable/edittext_background"
                     android:textColor="#000000"
-                    android:textColorHint="#713BD1"
+                    android:textColorHint="#98600D"
                     android:textSize="16sp"
                     android:padding="12dp"
                     android:layout_margin="16dp"/>
@@ -66,10 +66,11 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Login"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textColor="#FDFDFD"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:textAlignment="center"
-                    android:background="@drawable/button_background"
+                    android:backgroundTint="@android:color/holo_orange_light"
                     android:padding="10dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="20dp"/>
@@ -91,8 +92,10 @@
             android:layout_width="150dp"
             android:layout_height="60dp"
             android:text="Sign up"
-            android:textSize="18sp"
-            app:cornerRadius="20dp"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:id="@+id/btnsignup"/>
     </LinearLayout>
 

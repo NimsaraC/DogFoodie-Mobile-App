@@ -69,8 +69,6 @@ public class UserCart extends AppCompatActivity implements User_Cart_Adapter.Tot
             }
         });
 
-
-
     }
 
     @Override
@@ -89,7 +87,7 @@ public class UserCart extends AppCompatActivity implements User_Cart_Adapter.Tot
     private void updateTotalPrice(List<CartItem> cartItems) {
         double totalPrice = 0.0;
         for (CartItem item : cartItems) {
-            totalPrice += item.getTotalPrice();
+            totalPrice += item.getPrice() * item.getQuantity();
         }
         textViewTotalPrice.setText(String.format("Total Price: $%.2f", totalPrice));
     }

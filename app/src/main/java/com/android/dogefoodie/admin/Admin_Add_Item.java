@@ -70,7 +70,7 @@ public class Admin_Add_Item extends AppCompatActivity {
 
             if (success) {
                 Toast.makeText(Admin_Add_Item.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
-                finish();  // Optionally close the activity
+                finish();
             } else {
                 Toast.makeText(Admin_Add_Item.this, "Failed to add item. Please try again.", Toast.LENGTH_SHORT).show();
             }
@@ -88,7 +88,7 @@ public class Admin_Add_Item extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_selected_item,
                 categories
         );
 

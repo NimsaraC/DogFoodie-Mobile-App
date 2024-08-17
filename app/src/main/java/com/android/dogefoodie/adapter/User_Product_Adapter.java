@@ -43,19 +43,53 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
         holder.productPrice.setText("$" + product.getPrice());
 
         String imageUrl = product.getImageUrl();
-        if (imageUrl != null && new File(imageUrl).exists()) {
-            Picasso.get()
-                    .load(new File(imageUrl))
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.productImage);
+
+        if (imageUrl != null) {
+            if (imageUrl.startsWith("drawable/")) {
+                String drawableName = imageUrl.replace("drawable/", "").replace(".jpg", "");
+                int drawableResId = context.getResources().getIdentifier(drawableName, "drawable", context.getPackageName());
+
+                if (drawableResId != 0) {
+                    holder.productImage.setImageResource(drawableResId);
+                } else {
+                    holder.productImage.setImageResource(R.drawable.ic_launcher_foreground);
+                }
+            } else if (imageUrl.startsWith("/")) {
+                Picasso.get()
+                        .load(new File(imageUrl))
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                        .into(holder.productImage, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("Picasso", "Error loading image", e);
+                            }
+                        });
+            } else {
+                Picasso.get()
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                        .into(holder.productImage, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("Picasso", "Error loading image", e);
+                            }
+                        });
+            }
         } else {
-            Picasso.get()
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.productImage);
+            holder.productImage.setImageResource(R.drawable.ic_launcher_background);
         }
+
+
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, UserProductView.class);
@@ -65,6 +99,7 @@ public class User_Product_Adapter extends RecyclerView.Adapter<User_Product_Adap
             intent.putExtra("product_image_url", product.getImageUrl());
             intent.putExtra("product_description", product.getDescription());
             intent.putExtra("product_category", product.getCategory());
+            intent.putExtra("product_qty", product.getQuantity());
 
             if (!(context instanceof Activity)) {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

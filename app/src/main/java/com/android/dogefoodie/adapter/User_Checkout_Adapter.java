@@ -1,6 +1,7 @@
 package com.android.dogefoodie.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,18 +47,49 @@ public class User_Checkout_Adapter extends RecyclerView.Adapter<User_Checkout_Ad
         holder.itemQuantity.setText(String.valueOf(item.getQuantity()));
 
         String imageUrl = item.getImageUrl();
-        if (imageUrl != null && imageUrl.startsWith("/")) {
-            Picasso.get()
-                    .load(new File(imageUrl))
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.itemImage);
+        if (imageUrl != null) {
+            if (imageUrl.startsWith("drawable/")) {
+                String drawableName = imageUrl.replace("drawable/", "").replace(".jpg", "");
+                int drawableResId = context.getResources().getIdentifier(drawableName, "drawable", context.getPackageName());
+
+                if (drawableResId != 0) {
+                    holder.itemImage.setImageResource(drawableResId);
+                } else {
+                    holder.itemImage.setImageResource(R.drawable.ic_launcher_foreground);
+                }
+            } else if (imageUrl.startsWith("/")) {
+                Picasso.get()
+                        .load(new File(imageUrl))
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                        .into(holder.itemImage, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("Picasso", "Error loading image", e);
+                            }
+                        });
+            } else {
+                Picasso.get()
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_foreground)
+                        .into(holder.itemImage, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("Picasso", "Error loading image", e);
+                            }
+                        });
+            }
         } else {
-            Picasso.get()
-                    .load(imageUrl)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-                    .into(holder.itemImage);
+            holder.itemImage.setImageResource(R.drawable.ic_launcher_background);
         }
     }
 

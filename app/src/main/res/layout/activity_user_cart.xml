@@ -32,12 +32,6 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
         </LinearLayout>
 
         <TextView
@@ -110,6 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cornerRadius="10dp"
+            android:backgroundTint="#FFBA30"
+            android:textStyle="bold"
             android:textSize="20dp"
             android:text="Checkout" />
     </LinearLayout>

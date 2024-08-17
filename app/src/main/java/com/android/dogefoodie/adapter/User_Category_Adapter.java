@@ -17,10 +17,12 @@ public class User_Category_Adapter extends RecyclerView.Adapter<User_Category_Ad
 
     private List<String> categoryList;
     private Context context;
+    private OnCategoryClickListener onCategoryClickListener;
 
-    public User_Category_Adapter(Context context, List<String> categoryList) {
+    public User_Category_Adapter(Context context, List<String> categoryList, OnCategoryClickListener onCategoryClickListener) {
         this.context = context;
         this.categoryList = categoryList;
+        this.onCategoryClickListener = onCategoryClickListener;
     }
 
     @NonNull
@@ -35,7 +37,17 @@ public class User_Category_Adapter extends RecyclerView.Adapter<User_Category_Ad
     public void onBindViewHolder(@NonNull User_Category_Adapter.ViewHolder holder, int position) {
         String category = categoryList.get(position);
         holder.categoryTextView.setText(category);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onCategoryClickListener != null) {
+                onCategoryClickListener.onCategoryClick(category);
+            }
+        });
     }
+    public interface OnCategoryClickListener {
+        void onCategoryClick(String category);
+    }
+
 
     @Override
     public int getItemCount() {

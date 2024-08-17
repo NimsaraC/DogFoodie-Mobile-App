@@ -110,21 +110,34 @@
                     android:background="@color/white"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <Button
+                        android:id="@+id/btnCartIn"
+                        android:layout_width="35dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="15dp"
+                        android:backgroundTint="#E89417"
+                        android:textSize="20dp"
                         android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:text="Quantity"/>
+                        android:layout_weight="1"
+                        android:text="+" />
+
                     <TextView
                         android:id="@+id/cartQuantity"
-                        android:layout_width="match_parent"
-                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="10"/>
+                        android:textAlignment="center"
+                        android:text="10"
+                        android:textColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/btnCartDe"
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#E89417"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:text="-" />
 
                 </LinearLayout>
 

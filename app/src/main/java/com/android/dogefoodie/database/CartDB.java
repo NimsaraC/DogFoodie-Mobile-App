@@ -143,6 +143,13 @@ public class CartDB extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteCartItemUid(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, USER_ID + "=?", new String[]{String.valueOf(userId)});
+        db.close();
+    }
+
+
     public void deleteAllCartItems() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);

@@ -26,8 +26,18 @@ public class ProductDB extends SQLiteOpenHelper {
     private static final String IMAGE_URL = "imageUrl";
     private static final String RATING = "rating";
 
+    private static ProductDB instance;
+    private SQLiteDatabase db;
+
     public ProductDB(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
+    }
+
+    public static synchronized ProductDB getInstance(Context context) {
+        if (instance == null) {
+            instance = new ProductDB(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
@@ -42,7 +52,6 @@ public class ProductDB extends SQLiteOpenHelper {
                 IMAGE_URL + " TEXT, " +
                 RATING + " REAL)";
         db.execSQL(createTableQuery);
-
         insertDummyData(db);
     }
 
@@ -52,8 +61,21 @@ public class ProductDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    private SQLiteDatabase getDatabase(boolean writable) {
+        if (writable) {
+            if (db == null || !db.isOpen()) {
+                db = this.getWritableDatabase();
+            }
+        } else {
+            if (db == null || !db.isOpen()) {
+                db = this.getReadableDatabase();
+            }
+        }
+        return db;
+    }
+
     public long addProduct(String name, String category, double price, String description, int quantity, String imageUrl, double rating) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         ContentValues values = new ContentValues();
         values.put(NAME, name);
         values.put(CATEGORY, category);
@@ -63,15 +85,13 @@ public class ProductDB extends SQLiteOpenHelper {
         values.put(IMAGE_URL, imageUrl);
         values.put(RATING, rating);
 
-        long result = db.insert(TABLE_NAME, null, values);
-        db.close();
-        return result;
+        return db.insert(TABLE_NAME, null, values);
     }
 
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<>();
+        SQLiteDatabase db = getDatabase(false);
         String query = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -90,13 +110,35 @@ public class ProductDB extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
         return productList;
+    }
+
+    public int getProductQuantity(String productName) {
+        SQLiteDatabase db = getDatabase(false);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{QUANTITY}, NAME + "=?", new String[]{productName}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(QUANTITY));
+            cursor.close();
+            return quantity;
+        } else {
+            return 0;
+        }
+    }
+
+    public void updateProductQuantity(String productName, int quantitySold) {
+        SQLiteDatabase db = getDatabase(true);
+        int currentQuantity = getProductQuantity(productName);
+        int newQuantity = currentQuantity - quantitySold;
+
+        ContentValues values = new ContentValues();
+        values.put(QUANTITY, newQuantity);
+        db.update(TABLE_NAME, values, NAME + "=?", new String[]{productName});
     }
 
     public List<Product> getProductByCategory(String category) {
         List<Product> productList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = getDatabase(false);
         Cursor cursor = db.query(TABLE_NAME, null, CATEGORY + "=?", new String[]{category}, null, null, null);
 
         if (cursor.moveToFirst()) {
@@ -115,14 +157,12 @@ public class ProductDB extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
         return productList;
     }
 
     public List<Product> searchProduct(String name) {
         List<Product> productList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
+        SQLiteDatabase db = getDatabase(false);
         Cursor cursor = db.query(TABLE_NAME, null, NAME + " LIKE ?", new String[]{"%" + name + "%"}, null, null, null);
 
         if (cursor.moveToFirst()) {
@@ -140,14 +180,12 @@ public class ProductDB extends SQLiteOpenHelper {
                 productList.add(product);
             } while (cursor.moveToNext());
         }
-
         cursor.close();
-        db.close();
         return productList;
     }
 
     public Product getProductById(int productId) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = getDatabase(false);
         Cursor cursor = db.query(TABLE_NAME, null, ID + "=?", new String[]{String.valueOf(productId)}, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -162,7 +200,6 @@ public class ProductDB extends SQLiteOpenHelper {
                     cursor.getDouble(cursor.getColumnIndexOrThrow(RATING))
             );
             cursor.close();
-            db.close();
             return product;
         } else {
             return null;
@@ -170,7 +207,7 @@ public class ProductDB extends SQLiteOpenHelper {
     }
 
     public void editProduct(int productId, String name, String category, double price, String description, int quantity, String imageUrl, double rating) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         ContentValues values = new ContentValues();
         values.put(NAME, name);
         values.put(CATEGORY, category);
@@ -180,26 +217,24 @@ public class ProductDB extends SQLiteOpenHelper {
         values.put(IMAGE_URL, imageUrl);
         values.put(RATING, rating);
         db.update(TABLE_NAME, values, ID + "=?", new String[]{String.valueOf(productId)});
-        db.close();
     }
 
     public void deleteProduct(int productId) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         db.delete(TABLE_NAME, ID + "=?", new String[]{String.valueOf(productId)});
-        db.close();
     }
 
     private void insertDummyData(SQLiteDatabase db) {
-        addProduct(db, "Organic Chicken Dog Food", "Dog Food", 29.99, "High-protein, grain-free dog food made with organic chicken.", 50, "url_to_image1", 4.5);
-        addProduct(db, "Salmon & Sweet Potato Dog Food", "Dog Food", 34.99, "Premium dog food with salmon and sweet potatoes, rich in omega-3.", 30, "url_to_image2", 4.7);
-        addProduct(db, "Beef & Barley Dog Food", "Dog Food", 27.99, "Nutritious beef and barley dog food with essential vitamins.", 45, "url_to_image3", 4.4);
-        addProduct(db, "Chicken & Brown Rice Dog Food", "Dog Food", 25.99, "Balanced dog food with chicken and brown rice, ideal for sensitive stomachs.", 60, "url_to_image4", 4.6);
-        addProduct(db, "Lamb & Rice Dog Food", "Dog Food", 32.99, "Hypoallergenic lamb and rice dog food for all life stages.", 40, "url_to_image5", 4.5);
-        addProduct(db, "Multivitamin Chews", "Supplements", 19.99, "Daily multivitamin chews for dogs to support overall health.", 100, "url_to_image6", 4.6);
-        addProduct(db, "Joint Health Supplements", "Supplements", 24.99, "Supplements to support joint health and mobility in dogs.", 80, "url_to_image7", 4.4);
-        addProduct(db, "Dental Care Sticks", "Treats", 12.99, "Dental care sticks to help clean teeth and freshen breath.", 200, "url_to_image8", 4.3);
-        addProduct(db, "Beef Jerky Treats", "Treats", 15.99, "All-natural beef jerky treats for dogs.", 150, "url_to_image9", 4.8);
-        addProduct(db, "Chicken & Pumpkin Biscuits", "Treats", 10.99, "Tasty chicken and pumpkin biscuits for a healthy treat.", 180, "url_to_image10", 4.7);
+        addProduct(db, "Organic Chicken Dog Food", "Dog Food", 29.99, "High-protein, grain-free dog food made with organic chicken.", 50, "drawable/organic.jpg", 4.5);
+        addProduct(db, "Salmon & Sweet Potato Dog Food", "Dog Food", 34.99, "Premium dog food with salmon and sweet potatoes, rich in omega-3.", 30, "drawable/salmon", 4.7);
+        addProduct(db, "Beef & Barley Dog Food", "Dog Food", 27.99, "Nutritious beef and barley dog food with essential vitamins.", 45, "drawable/beef", 4.4);
+        addProduct(db, "Chicken & Brown Rice Dog Food", "Dog Food", 25.99, "Balanced dog food with chicken and brown rice, ideal for sensitive stomachs.", 60, "drawable/rice", 4.6);
+        addProduct(db, "Lamb & Rice Dog Food", "Dog Food", 32.99, "Hypoallergenic lamb and rice dog food for all life stages.", 40, "drawable/lamb", 4.5);
+        addProduct(db, "Multivitamin Chews", "Supplements", 19.99, "Daily multivitamin chews for dogs to support overall health.", 100, "drawable/cheew", 4.6);
+        addProduct(db, "Joint Health Supplements", "Supplements", 24.99, "Supplements to support joint health and mobility in dogs.", 80, "drawable/joint", 4.4);
+        addProduct(db, "Dental Care Sticks", "Treats", 12.99, "Dental care sticks to help clean teeth and freshen breath.", 200, "drawable/dental", 4.3);
+        addProduct(db, "Beef Jerky Treats", "Treats", 15.99, "All-natural beef jerky treats for dogs.", 150, "drawable/jecky", 4.8);
+        addProduct(db, "Chicken & Pumpkin Biscuits", "Treats", 10.99, "Tasty chicken and pumpkin biscuits for a healthy treat.", 180, "drawable/pumpkin", 4.7);
     }
 
     private long addProduct(SQLiteDatabase db, String name, String category, double price, String description, int quantity, String imageUrl, double rating) {
@@ -214,4 +249,10 @@ public class ProductDB extends SQLiteOpenHelper {
 
         return db.insert(TABLE_NAME, null, values);
     }
+    public void closeDatabase() {
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+    }
+
 }

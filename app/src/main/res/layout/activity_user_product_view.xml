@@ -79,16 +79,22 @@
                         tools:srcCompat="@drawable/ic_launcher_background" />
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/textView7"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:textStyle="bold"
                     android:background="@color/white"
-                    android:textColor="@color/black"
-                    android:textSize="30dp"
-                    android:text="Name" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:textStyle="bold"
+                        android:background="@color/white"
+                        android:textColor="@color/black"
+                        android:textSize="30dp"
+                        android:text="Name" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -152,7 +158,6 @@
                     android:padding="16dp"
                     android:background="@color/white">
 
-                    <!-- Write Review Section -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -163,13 +168,13 @@
                         android:layout_marginBottom="8dp"/>
 
                     <RatingBar
-                    android:id="@+id/ratingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/ratingBarStyle"
-                    android:numStars="5"
-                    android:stepSize="0.5"
-                    android:rating="0" />
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/ratingBarStyle"
+                        android:numStars="5"
+                        android:stepSize="0.5"
+                        android:rating="0" />
 
                     <EditText
                         android:id="@+id/reviewEditText"
@@ -260,21 +265,49 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:text="Qty"
-                android:textSize="20dp" />
+                android:layout_weight="0.5"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:text="Qty"
+                    android:textSize="20dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Available : "
+                        android:layout_marginStart="20dp"/>
+
+                    <TextView
+                        android:id="@+id/txtQty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Available"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -284,6 +317,10 @@
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
+                    android:backgroundTint="#FFBA30"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
                     android:layout_weight="1"
                     android:text="+"
                     app:cornerRadius="10dp" />
@@ -303,6 +340,10 @@
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:backgroundTint="#FFBA30"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
                     android:layout_weight="1"
                     android:text="-"
                     app:cornerRadius="10dp" />
@@ -318,6 +359,9 @@
             android:layout_weight="1"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:backgroundTint="#FFBA30"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="20dp"
             android:text="Add to cart" />
 
