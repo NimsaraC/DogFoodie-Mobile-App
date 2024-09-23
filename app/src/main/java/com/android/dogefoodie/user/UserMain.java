@@ -38,7 +38,7 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
     private TextView edtSearch;
     private Button btnArticle;
     private FloatingActionButton floatingActionButton;
-    private LinearLayout logOut, history;
+    private LinearLayout logOut, history, cart, article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,8 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
 
         logOut = findViewById(R.id.logout);
         history = findViewById(R.id.history);
+        cart = findViewById(R.id.cart);
+        article = findViewById(R.id.article);
 
         recyclerView1 = findViewById(R.id.recyclerView1);
         LinearLayoutManager categoryLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -75,6 +77,20 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
         productAdapter = new User_Product_Adapter(this, productList);
         recyclerView2.setAdapter(productAdapter);
 
+        article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserArticles.class);
+                startActivity(intent);
+            }
+        });
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserCart.class);
+                startActivity(intent);
+            }
+        });
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
