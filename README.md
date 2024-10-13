@@ -59,4 +59,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any inquiries, please reach out to [your-c.t.nimsara@gmail.com](mailto:c.t.nimsara@gmail.com).
+For any inquiries, please reach out to [c.t.nimsara@gmail.com](mailto:c.t.nimsara@gmail.com).
