@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".admin.Admin_Add_Item">
+    tools:context=".admin.Admin_Edit_Item">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +48,7 @@
             android:textSize="25dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Add New Product" />
+            android:text="Edit Product Details" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -238,7 +236,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Upload Image" />
+                            android:text="Change Image" />
 
                         <ImageView
                             android:id="@+id/imageViewPreview"
@@ -260,9 +258,10 @@
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add Item" />
+                    android:text="Save Details" />
 
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,7 +70,8 @@ public class Admin_Add_Item extends AppCompatActivity {
 
             if (success) {
                 Toast.makeText(Admin_Add_Item.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
-                finish();
+                Intent intent1 = new Intent(Admin_Add_Item.this, Admin_Product_List.class);
+                startActivity(intent1);
             } else {
                 Toast.makeText(Admin_Add_Item.this, "Failed to add item. Please try again.", Toast.LENGTH_SHORT).show();
             }

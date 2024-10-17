@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.SharedPreference;
 import com.android.dogefoodie.User;
+import com.android.dogefoodie.admin.Admin_Add_Item;
+import com.android.dogefoodie.admin.Admin_Product_List;
 import com.android.dogefoodie.database.UserDB;
 
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.List;
 public class UserLogin extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button loginButton, signupButton;
+    private Button loginButton, signupButton, adminTemp;
     private UserDB userDB;
 
     @Override
@@ -31,6 +33,7 @@ public class UserLogin extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.btn3);
         signupButton = findViewById(R.id.btnsignup);
+        adminTemp = findViewById(R.id.admin);
 
         userDB = new UserDB(this);
 
@@ -45,8 +48,10 @@ public class UserLogin extends AppCompatActivity {
 
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(UserLogin.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                } else {
-
+                } else if(email.equals("dogfoodie@gmail.com") && password.equals("1234")){
+                    Intent intent = new Intent(getApplicationContext(), Admin_Add_Item.class);
+                    startActivity(intent);
+                }else{
                     boolean isAuthenticated = authenticateUser(email, password);
                     if (isAuthenticated) {
                         Toast.makeText(UserLogin.this, "Login successful", Toast.LENGTH_SHORT).show();
@@ -61,10 +66,18 @@ public class UserLogin extends AppCompatActivity {
             }
         });
 
+        adminTemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Admin_Add_Item.class);
+                startActivity(intent);
+            }
+        });
+
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserRegistration.class);
+                Intent intent = new Intent(getApplicationContext(), Admin_Product_List.class);
                 startActivity(intent);
             }
         });
