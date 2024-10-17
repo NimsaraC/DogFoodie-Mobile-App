@@ -22,6 +22,7 @@ import com.android.dogefoodie.Product;
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.admin.Admin_Edit_Item;
 import com.android.dogefoodie.admin.Admin_Product_List;
+import com.android.dogefoodie.admin.Admin_Product_View;
 import com.android.dogefoodie.database.ProductDB;
 import com.android.dogefoodie.user.UserProductView;
 import com.squareup.picasso.Picasso;
@@ -59,6 +60,19 @@ public class Admin_Product_Adapter  extends RecyclerView.Adapter<Admin_Product_A
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Admin_Edit_Item.class);
+                intent.putExtra("product_id", String.valueOf(product.getId()));
+
+                if (!(context instanceof Activity)) {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                context.startActivity(intent);
+            }
+        });
+
+        holder.productView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Admin_Product_View.class);
                 intent.putExtra("product_id", String.valueOf(product.getId()));
 
                 if (!(context instanceof Activity)) {

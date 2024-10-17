@@ -21,7 +21,7 @@ import java.util.List;
 public class UserLogin extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button loginButton, signupButton, adminTemp;
+    private Button loginButton, signupButton;
     private UserDB userDB;
 
     @Override
@@ -33,7 +33,6 @@ public class UserLogin extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.btn3);
         signupButton = findViewById(R.id.btnsignup);
-        adminTemp = findViewById(R.id.admin);
 
         userDB = new UserDB(this);
 
@@ -49,7 +48,7 @@ public class UserLogin extends AppCompatActivity {
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(UserLogin.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else if(email.equals("dogfoodie@gmail.com") && password.equals("1234")){
-                    Intent intent = new Intent(getApplicationContext(), Admin_Add_Item.class);
+                    Intent intent = new Intent(getApplicationContext(), Admin_Product_List.class);
                     startActivity(intent);
                 }else{
                     boolean isAuthenticated = authenticateUser(email, password);
@@ -66,18 +65,10 @@ public class UserLogin extends AppCompatActivity {
             }
         });
 
-        adminTemp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Admin_Add_Item.class);
-                startActivity(intent);
-            }
-        });
-
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Admin_Product_List.class);
+                Intent intent = new Intent(getApplicationContext(), UserRegistration.class);
                 startActivity(intent);
             }
         });

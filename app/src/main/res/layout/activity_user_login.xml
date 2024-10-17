@@ -97,15 +97,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:id="@+id/btnsignup"/>
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:text="Sign up"
-            android:backgroundTint="@android:color/holo_orange_light"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:id="@+id/admin"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
