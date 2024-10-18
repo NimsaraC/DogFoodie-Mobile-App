@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.dogefoodie.MainActivity;
 import com.android.dogefoodie.R;
@@ -56,6 +57,33 @@ public class UserProfile extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), UserProfileEdit.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        btnAddArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserAddArticle.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSetAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Soon!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnToShip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Soon!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnShipped.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Soon!!!", Toast.LENGTH_SHORT).show();
             }
         });
     }

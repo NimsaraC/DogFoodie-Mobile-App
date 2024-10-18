@@ -13,6 +13,9 @@
         android:theme="@style/Theme.DogeFoodie"
         tools:targetApi="31">
         <activity
+            android:name=".user.UserAddArticle"
+            android:exported="false" />
+        <activity
             android:name=".user.UserProfileEdit"
             android:exported="false" />
         <activity
