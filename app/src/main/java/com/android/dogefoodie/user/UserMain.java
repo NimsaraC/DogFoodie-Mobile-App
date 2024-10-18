@@ -38,7 +38,7 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
     private TextView edtSearch;
     private Button btnArticle;
     private FloatingActionButton floatingActionButton;
-    private LinearLayout logOut, history, cart, article;
+    private LinearLayout profile, history, cart, article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
         btnArticle = findViewById(R.id.button);
         floatingActionButton = findViewById(R.id.floatingActionButton2);
 
-        logOut = findViewById(R.id.logout);
+        profile = findViewById(R.id.logout);
         history = findViewById(R.id.history);
         cart = findViewById(R.id.cart);
         article = findViewById(R.id.article);
@@ -98,10 +98,11 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
                 startActivity(intent);
             }
         });
-        logOut.setOnClickListener(new View.OnClickListener() {
+        profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout();
+                Intent intent = new Intent(getApplicationContext(), UserProfile.class);
+                startActivity(intent);
             }
         });
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -139,34 +140,6 @@ public class UserMain extends AppCompatActivity implements User_Category_Adapter
                 startActivity(intent);
             }
         });
-    }
-
-    private void logout() {
-        SharedPreferences preferences = getSharedPreferences("your_preference_name", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        editor.remove(SharedPreference.KEY_NAME);
-        editor.remove(SharedPreference.KEY_ID);
-        editor.remove(SharedPreference.KEY_EMAIL);
-        editor.remove(SharedPreference.KEY_STATUS);
-        editor.remove(SharedPreference.PHONE);
-        editor.remove(SharedPreference.NAME);
-        editor.remove(SharedPreference.NO);
-        editor.remove(SharedPreference.STREET);
-        editor.remove(SharedPreference.CITY);
-        editor.remove(SharedPreference.ZIP);
-        editor.remove(SharedPreference.TOTAL);
-        editor.remove(SharedPreference.CARD_HOLDER);
-        editor.remove(SharedPreference.CVV);
-        editor.remove(SharedPreference.CARD_NUMBER);
-        editor.remove(SharedPreference.EXPIRE);
-
-        editor.apply();
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 
     @Override

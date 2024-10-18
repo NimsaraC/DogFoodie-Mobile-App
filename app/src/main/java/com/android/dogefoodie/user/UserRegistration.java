@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.dogefoodie.R;
+import com.android.dogefoodie.SharedPreference;
 import com.android.dogefoodie.database.UserDB;
 
 public class UserRegistration extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class UserRegistration extends AppCompatActivity {
         signupButton = findViewById(R.id.btn2);
 
         userDB = new UserDB(this);
+        SharedPreference preference = new SharedPreference();
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +50,6 @@ public class UserRegistration extends AppCompatActivity {
                     long result = userDB.userRegistration(username, email, password, phone);
                     if (result != -1) {
                         Toast.makeText(UserRegistration.this, "Registration successful", Toast.LENGTH_SHORT).show();
-
                         Intent intent = new Intent(getApplicationContext(), UserLogin.class);
                         startActivity(intent);
                     } else {

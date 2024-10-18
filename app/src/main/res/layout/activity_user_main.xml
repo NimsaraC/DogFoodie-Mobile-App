@@ -125,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/logout" />
+                        android:src="@drawable/userlink" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
