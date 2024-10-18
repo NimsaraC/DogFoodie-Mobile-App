@@ -112,11 +112,14 @@ public class UserOrderConfirm extends AppCompatActivity {
                 txtCity.getText().toString();
         String username = preference.getString(getApplicationContext(), SharedPreference.KEY_NAME);
 
+        String Uid = preference.getString(getApplicationContext(), SharedPreference.KEY_ID);
+        int id = Integer.parseInt(Uid);
         ProductDB productDB = ProductDB.getInstance(this);
 
+        String status = "ToShip";
         for (CartItem item : cartItems) {
             double totalPrice = item.getPrice() * item.getQuantity();
-            orderDB.addOrder(item.getProductName(), item.getQuantity(), item.getPrice(), totalPrice, username, address);
+            orderDB.addOrder(item.getProductName(), item.getQuantity(), item.getPrice(), totalPrice, username, address, id,status);
 
             productDB.updateProductQuantity(item.getProductName(), item.getQuantity());
         }

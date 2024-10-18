@@ -15,7 +15,7 @@ import java.util.List;
 
 public class OrderDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "OrderDB";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;  // Incremented version to trigger onUpgrade
     private static final String TABLE_NAME = "orders";
     private static final String ID = "id";
     private static final String PRODUCT = "product";
@@ -24,6 +24,8 @@ public class OrderDB extends SQLiteOpenHelper {
     private static final String TOTAL_PRICE = "total_price";
     private static final String USERNAME = "username";
     private static final String ADDRESS = "address";
+    private static final String USER_ID = "user_id";
+    private static final String ORDER_STATUS = "order_status";
 
     public OrderDB(@Nullable Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -38,17 +40,21 @@ public class OrderDB extends SQLiteOpenHelper {
                 PRICE + " REAL, " +
                 TOTAL_PRICE + " REAL, " +
                 USERNAME + " TEXT, " +
-                ADDRESS + " TEXT)";
+                ADDRESS + " TEXT, " +
+                USER_ID + " INTEGER, " +
+                ORDER_STATUS + " TEXT)";
         db.execSQL(createTableQuery);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + USER_ID + " INTEGER");
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + ORDER_STATUS + " TEXT");
+        }
     }
 
-    public long addOrder(String product, int quantity, double price, double totalPrice, String username, String address) {
+    public long addOrder(String product, int quantity, double price, double totalPrice, String username, String address, int userId, String orderStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PRODUCT, product);
@@ -57,6 +63,8 @@ public class OrderDB extends SQLiteOpenHelper {
         values.put(TOTAL_PRICE, totalPrice);
         values.put(USERNAME, username);
         values.put(ADDRESS, address);
+        values.put(USER_ID, userId);
+        values.put(ORDER_STATUS, orderStatus);
 
         long result = db.insert(TABLE_NAME, null, values);
         db.close();
@@ -77,7 +85,9 @@ public class OrderDB extends SQLiteOpenHelper {
                         cursor.getDouble(cursor.getColumnIndexOrThrow(PRICE)),
                         cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL_PRICE)),
                         cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(ADDRESS))
+                        cursor.getString(cursor.getColumnIndexOrThrow(ADDRESS)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(ORDER_STATUS))
                 );
                 orderList.add(order);
             } while (cursor.moveToNext());
@@ -101,7 +111,9 @@ public class OrderDB extends SQLiteOpenHelper {
                         cursor.getDouble(cursor.getColumnIndexOrThrow(PRICE)),
                         cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL_PRICE)),
                         cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(ADDRESS))
+                        cursor.getString(cursor.getColumnIndexOrThrow(ADDRESS)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(ORDER_STATUS))
                 );
                 orderList.add(order);
             } while (cursor.moveToNext());
@@ -111,7 +123,39 @@ public class OrderDB extends SQLiteOpenHelper {
         return orderList;
     }
 
-    public void updateOrder(int id, String product, int quantity, double price, double totalPrice, String username, String address) {
+    public List<Order> getOrdersByUserIdAndStatus(int userId, String orderStatus) {
+        List<Order> orderList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NAME, null, USER_ID + "=? AND " + ORDER_STATUS + "=?",
+                new String[]{String.valueOf(userId), orderStatus},
+                null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(PRODUCT)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(QUANTITY)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(PRICE)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL_PRICE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(ADDRESS)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(ORDER_STATUS))
+                );
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return orderList;
+    }
+
+
+    public void updateOrder(int id, String product, int quantity, double price, double totalPrice, String username, String address, int userId, String orderStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PRODUCT, product);
@@ -120,6 +164,8 @@ public class OrderDB extends SQLiteOpenHelper {
         values.put(TOTAL_PRICE, totalPrice);
         values.put(USERNAME, username);
         values.put(ADDRESS, address);
+        values.put(USER_ID, userId);
+        values.put(ORDER_STATUS, orderStatus);
 
         db.update(TABLE_NAME, values, ID + " = ?", new String[]{String.valueOf(id)});
         db.close();

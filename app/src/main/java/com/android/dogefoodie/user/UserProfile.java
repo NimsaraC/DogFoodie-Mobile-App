@@ -77,13 +77,17 @@ public class UserProfile extends AppCompatActivity {
         btnToShip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Soon!!!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), UserOrder.class);
+                intent.putExtra("status", "ToShip");
+                startActivity(intent);
             }
         });
         btnShipped.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Soon!!!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), UserOrder.class);
+                intent.putExtra("status", "Shipped");
+                startActivity(intent);
             }
         });
     }

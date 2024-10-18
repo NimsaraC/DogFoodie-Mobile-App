@@ -8,8 +8,10 @@ public class Order {
     private double totalPrice;
     private String username;
     private String address;
+    private String orderStatus;
+    private int userId;
 
-    public Order(int id, String product, int quantity, double price, double totalPrice, String username, String address) {
+    public Order(int id, String product, int quantity, double price, double totalPrice, String username, String address, int userId, String orderStatus) {
         this.id = id;
         this.product = product;
         this.quantity = quantity;
@@ -17,6 +19,8 @@ public class Order {
         this.totalPrice = totalPrice;
         this.username = username;
         this.address = address;
+        this.userId = userId;
+        this. orderStatus = orderStatus;
     }
 
     public int getId() {
@@ -75,5 +79,21 @@ public class Order {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
