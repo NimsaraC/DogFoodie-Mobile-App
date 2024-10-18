@@ -43,7 +43,6 @@ To run the DogFoodie app locally, follow these steps:
 - **Programming Language**: Java
 - **IDE**: Android Studio
 - **Database**: SQLite
-- **Libraries**: [List any other libraries or frameworks you are using]
 
 ## Contributing
 
