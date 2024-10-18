@@ -49,6 +49,15 @@ public class UserProfile extends AppCompatActivity {
                 logout();
             }
         });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileEdit.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void setUserData(){
