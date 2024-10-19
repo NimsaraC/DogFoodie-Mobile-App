@@ -4,37 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".user.UserAddress">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Address"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_gray"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/etUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"
             android:hint="User Name"
+            android:textColorHint="@color/dark_gray"
             android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"
             android:hint="Phone Number"
+            android:textColorHint="@color/dark_gray"
             android:inputType="phone" />
 
         <EditText
             android:id="@+id/etNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"
+            android:textColorHint="@color/dark_gray"
             android:hint="No" />
         <EditText
             android:id="@+id/etStreet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"
+            android:textColorHint="@color/dark_gray"
             android:hint="Street"
             android:inputType="textPostalAddress" />
 
@@ -42,6 +75,11 @@
             android:id="@+id/etCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:textSize="18dp"
+            android:textColorHint="@color/dark_gray"
+            android:layout_marginBottom="15dp"
             android:hint="City"
             android:inputType="text" />
 
@@ -49,6 +87,11 @@
             android:id="@+id/etPostal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:textSize="18dp"
+            android:textColorHint="@color/dark_gray"
+            android:layout_marginBottom="15dp"
             android:hint="Postal Code"/>
 
         <Button
@@ -56,6 +99,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:backgroundTint="#FF9800"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>

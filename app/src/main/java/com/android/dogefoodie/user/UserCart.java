@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.SharedPreference;
@@ -61,8 +62,13 @@ public class UserCart extends AppCompatActivity implements User_Cart_Adapter.Tot
                 try {
                     double totalPrice = Double.parseDouble(priceString);
                     preference.SaveString(getApplicationContext(), String.valueOf(totalPrice), SharedPreference.TOTAL);
-                    Intent intent = new Intent(getApplicationContext(), UserOrderConfirm.class);
-                    startActivity(intent);
+                    if(cartItems.size() == 0){
+                        Toast.makeText(getApplicationContext(), "Your cart is empty!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent intent = new Intent(getApplicationContext(), UserOrderConfirm.class);
+                        startActivity(intent);
+                    }
+
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }

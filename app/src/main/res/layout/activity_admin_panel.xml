@@ -251,6 +251,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/txtOrderTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Orders to Ship"

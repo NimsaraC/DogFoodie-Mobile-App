@@ -27,7 +27,7 @@ import java.util.List;
 
 public class AdminPanel extends AppCompatActivity {
 
-    private TextView productsCount, ordersCount, salesCount, usersCount, articlesCount;
+    private TextView productsCount, ordersCount, salesCount, usersCount, articlesCount, title;
     private LinearLayout btnProduct, btnOrders, btnArticles;
     private RecyclerView recyclerView;
     UserDB userDB;
@@ -45,6 +45,7 @@ public class AdminPanel extends AppCompatActivity {
         salesCount = findViewById(R.id.SalesCount);
         usersCount = findViewById(R.id.UserCount);
         articlesCount = findViewById(R.id.ArticleCount);
+        title = findViewById(R.id.txtOrderTitle);
         btnProduct = findViewById(R.id.btnProduct);
         btnOrders = findViewById(R.id.btnOrders);
         btnArticles = findViewById(R.id.btnArticles);
@@ -86,6 +87,22 @@ public class AdminPanel extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Admin_Order.class);
+                startActivity(intent);
+            }
+        });
+
+        btnArticles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Admin_Article.class);
+                startActivity(intent);
+            }
+        });
     }
     private void getOrders(){
         OrderDB db = new OrderDB(this);
@@ -99,6 +116,8 @@ public class AdminPanel extends AppCompatActivity {
                 toShipOrders.add(order);
             }
         }
+        int toShipOrdersCount = toShipOrders.size();
+        title.setText(String.format("Orders to Ship (%s)", toShipOrdersCount));
 
         adminPanelOrderAdapter = new AdminPanel_Order_Adapter(toShipOrders, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -2,6 +2,8 @@ package com.android.dogefoodie.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -71,7 +73,8 @@ public class UserProfile extends AppCompatActivity {
         btnSetAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Soon!!!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), UserAddress.class);
+                startActivity(intent);
             }
         });
         btnToShip.setOnClickListener(new View.OnClickListener() {
@@ -99,30 +102,41 @@ public class UserProfile extends AppCompatActivity {
     }
 
     private void logout() {
-        SharedPreferences preferences = getSharedPreferences("your_preference_name", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Logout")
+                .setMessage("Are you sure you want to log out?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences preferences = getSharedPreferences("your_preference_name", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
 
-        editor.remove(SharedPreference.KEY_NAME);
-        editor.remove(SharedPreference.KEY_ID);
-        editor.remove(SharedPreference.KEY_EMAIL);
-        editor.remove(SharedPreference.KEY_STATUS);
-        editor.remove(SharedPreference.PHONE);
-        editor.remove(SharedPreference.NAME);
-        editor.remove(SharedPreference.NO);
-        editor.remove(SharedPreference.STREET);
-        editor.remove(SharedPreference.CITY);
-        editor.remove(SharedPreference.ZIP);
-        editor.remove(SharedPreference.TOTAL);
-        editor.remove(SharedPreference.CARD_HOLDER);
-        editor.remove(SharedPreference.CVV);
-        editor.remove(SharedPreference.CARD_NUMBER);
-        editor.remove(SharedPreference.EXPIRE);
+                        editor.remove(SharedPreference.KEY_NAME);
+                        editor.remove(SharedPreference.KEY_ID);
+                        editor.remove(SharedPreference.KEY_EMAIL);
+                        editor.remove(SharedPreference.KEY_STATUS);
+                        editor.remove(SharedPreference.PHONE);
+                        editor.remove(SharedPreference.NAME);
+                        editor.remove(SharedPreference.NO);
+                        editor.remove(SharedPreference.STREET);
+                        editor.remove(SharedPreference.CITY);
+                        editor.remove(SharedPreference.ZIP);
+                        editor.remove(SharedPreference.TOTAL);
+                        editor.remove(SharedPreference.CARD_HOLDER);
+                        editor.remove(SharedPreference.CVV);
+                        editor.remove(SharedPreference.CARD_NUMBER);
+                        editor.remove(SharedPreference.EXPIRE);
 
-        editor.apply();
+                        editor.apply();
 
-        Intent intent = new Intent(this, UserLogin.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+                        Intent intent = new Intent(getApplicationContext(), UserLogin.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)  // Dismiss dialog if user cancels
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
+
 }

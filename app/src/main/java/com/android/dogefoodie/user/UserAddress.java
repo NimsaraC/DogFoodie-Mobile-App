@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.SharedPreference;
+import com.android.dogefoodie.admin.Admin_Add_Item;
 
 public class UserAddress extends AppCompatActivity {
 
@@ -40,9 +42,8 @@ public class UserAddress extends AppCompatActivity {
                 preference.SaveString(getApplicationContext(),txtCity.getText().toString(), SharedPreference.CITY);
                 preference.SaveString(getApplicationContext(),txtPostal.getText().toString(), SharedPreference.ZIP);
 
-                Intent intent = new Intent(getApplicationContext(), UserOrderConfirm.class);
-                startActivity(intent);
-
+                Toast.makeText(getApplicationContext(), "Address saved successfully", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
