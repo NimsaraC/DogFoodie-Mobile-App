@@ -1,13 +1,17 @@
 # DogFoodie Mobile App
 
-DogFoodie is a mobile application developed for dog owners to manage their pets' nutrition and food preferences. It allows users to track food consumption, access nutritional information, and receive recommended food options based on their dog's needs. Additionally, admin users can now manage products with ease, including creating, updating, and deleting items.
+DogFoodie is a mobile application developed for dog owners to manage their pets' nutrition and food preferences. It allows users to track food consumption, access nutritional information, and receive recommended food options based on their dog's needs. In addition, admin users have the ability to manage products, orders, sales, users, and articles through an enhanced admin panel.
 
 ## Features
 
 - **Food Tracking**: Keep track of your dog's food consumption.
 - **Nutritional Information**: Access detailed nutritional information about various dog foods.
 - **Personalized Recommendations**: Get food recommendations based on your dog's breed, age, and health condition.
-- **Admin Options**: Admin users can manage product data with full CRUD (Create, Read, Update, Delete) functionality.
+- **Admin Product Management**: Admin users can manage product data with full CRUD (Create, Read, Update, Delete) functionality.
+- **Order Management**: Admins can view and manage customer orders.
+- **Sales Tracking**: Admin users can view sales data.
+- **Article Management**: Admins can create, read, and delete articles related to dog care and nutrition.
+- **User Profile**: Users can update and manage their profile information.
 - **SQLite Database**: Utilizes SQLite for efficient local data storage.
 
 ## Installation
@@ -36,7 +40,7 @@ To run the DogFoodie app locally, follow these steps:
 1. Open the app on your Android device or emulator.
 2. Create an account or log in.
 3. Start tracking your dog's food and accessing nutritional information.
-4. If you are an admin, you can manage products through the admin panel.
+4. If you are an admin, you can manage products, orders, sales, users, and articles through the admin panel.
 
 ## Technologies Used
 
