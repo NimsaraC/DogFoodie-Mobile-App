@@ -116,7 +116,7 @@ public class UserOrderConfirm extends AppCompatActivity {
         int id = Integer.parseInt(Uid);
         ProductDB productDB = ProductDB.getInstance(this);
 
-        String status = "ToShip";
+        String status = "";
         for (CartItem item : cartItems) {
             double totalPrice = item.getPrice() * item.getQuantity();
             orderDB.addOrder(item.getProductName(), item.getQuantity(), item.getPrice(), totalPrice, username, address, id,status);

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="7dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardElevation="1dp"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="#999999"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txtOrderId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textColor="#333333"
+                        android:textStyle="italic"
+                        android:text="Order Id: 01" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="1dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#bfbfbf"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Product" />
+
+                    <TextView
+                        android:id="@+id/txtQnt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="17dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Quantity: 10" />
+
+                    <TextView
+                        android:id="@+id/txtAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Address" />
+
+                    <TextView
+                        android:id="@+id/txtTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Total: $100.00" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                app:cardElevation="1dp"
+                android:outlineSpotShadowColor="@color/black"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:id="@+id/btnShipOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:background="#ffff4d"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView48"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:text="Ship Order" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

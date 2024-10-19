@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.android.dogefoodie.R;
 import com.android.dogefoodie.SharedPreference;
 import com.android.dogefoodie.User;
+import com.android.dogefoodie.admin.AdminPanel;
 import com.android.dogefoodie.admin.Admin_Add_Item;
 import com.android.dogefoodie.admin.Admin_Product_List;
 import com.android.dogefoodie.database.UserDB;
@@ -48,7 +49,7 @@ public class UserLogin extends AppCompatActivity {
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(UserLogin.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else if(email.equals("dogfoodie@gmail.com") && password.equals("1234")){
-                    Intent intent = new Intent(getApplicationContext(), Admin_Product_List.class);
+                    Intent intent = new Intent(getApplicationContext(), AdminPanel.class);
                     startActivity(intent);
                 }else{
                     boolean isAuthenticated = authenticateUser(email, password);
